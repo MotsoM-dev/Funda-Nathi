@@ -1,0 +1,326 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Tutor.master.cs" Inherits="EducationProject.Tutor" %>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Let's Learn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --gradient-start: #6a11cb;
+            --gradient-mid: #2575fc;
+            --gradient-end: #4facfe;
+            --bg-main: #0f0c29;
+            --bg-secondary: #1a1a2e;
+            --text-white: #FFFFFF;
+            --text-light-gray: #E6E6FA;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--bg-main), var(--bg-secondary));
+            color: var(--text-light-gray);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: var(--transition);
+            padding-top: 30px;
+            overflow-y: auto;
+            border-right: 1px solid var(--glass-border);
+        }
+
+        .side-menu.open {
+            left: 0;
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 1100;
+            background: linear-gradient(135deg, var(--primary), var(--gradient-end));
+            border: none;
+            color: var(--text-white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-toggle.open {
+            left: 270px;
+            background: linear-gradient(135deg, var(--gradient-end), var(--primary));
+        }
+
+        .menu-header {
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h3 {
+            margin: 0;
+            color: var(--text-white);
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--text-white), var(--text-light-gray));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 10px 0;
+        }
+
+        .menu-nav {
+            list-style: none;
+            padding: 0 20px;
+            margin: 0;
+        }
+
+        .menu-nav li {
+            margin-bottom: 10px;
+        }
+
+        .menu-nav a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            color: var(--text-light-gray);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .menu-nav a:hover::before,
+        .menu-nav a.active::before {
+            left: 0;
+        }
+
+        .menu-nav a:hover,
+        .menu-nav a.active {
+            background: var(--glass-bg);
+            color: var(--text-white);
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-nav i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: 0;
+            padding: 30px;
+            transition: var(--transition);
+            min-height: calc(100vh - 80px);
+        }
+
+        .main-content.shifted {
+            margin-left: 300px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 35px var(--glass-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        footer {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            color: var(--text-white);
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .side-menu {
+                width: 270px;
+                left: -270px;
+            }
+            
+            .menu-toggle.open {
+                left: 240px;
+            }
+            
+            .main-content.shifted {
+                margin-left: 270px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .glass-card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .side-menu {
+                width: 250px;
+                left: -250px;
+            }
+            
+            .menu-toggle.open {
+                left: 220px;
+            }
+            
+            .main-content.shifted {
+                margin-left: 250px;
+            }
+            
+            .menu-header h3 {
+                font-size: 1.5rem;
+            }
+            
+            .menu-nav a {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animation for menu items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .menu-nav li {
+            animation: fadeIn 0.4s ease forwards;
+            opacity: 0;
+        }
+
+        .menu-nav li:nth-child(1) { animation-delay: 0.1s; }
+        .menu-nav li:nth-child(2) { animation-delay: 0.2s; }
+        .menu-nav li:nth-child(3) { animation-delay: 0.3s; }
+        .menu-nav li:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <h3><a href="/Home/Home.aspx">Funda Nathi</a></h3>
+        </div>
+        <ul class="menu-nav">
+            <li><a href="TutorDashboard.aspx"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/Tutor Folder/MyTutoringSession.aspx"><i class="fas fa-calendar-alt"></i> Sessions</a></li>
+            <li><a href="UploadCourse.aspx"><i class="fas fa-cloud-upload-alt"></i> Upload Content</a></li>
+            <li><a href="<%= ResolveUrl("~/Authentication/Auth.aspx") %>"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+        </ul>
+    </div>
+
+    <!-- Toggle Button -->
+    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="glass-card">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('menuToggle');
+            const menu = document.getElementById('sideMenu');
+            const content = document.getElementById('mainContent');
+
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                menu.classList.toggle('open');
+                toggle.classList.toggle('open');
+                content.classList.toggle('shifted');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (menu.classList.contains('open') &&
+                    !menu.contains(e.target) &&
+                    e.target !== toggle) {
+                    menu.classList.remove('open');
+                    toggle.classList.remove('open');
+                    content.classList.remove('shifted');
+                }
+            });
+
+            const page = window.location.pathname.split('/').pop();
+            const links = document.querySelectorAll('.menu-nav a');
+            links.forEach(link => {
+                const href = link.getAttribute('href').split('/').pop();
+                if (href === page) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

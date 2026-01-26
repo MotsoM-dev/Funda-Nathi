@@ -1,0 +1,330 @@
+﻿  <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Student.master.cs" Inherits="EducationProject.Student" %>
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Funda Nathi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #A12568;
+            --secondary: #3B185F;
+            --gradient-start: #3B185F;
+            --gradient-mid: #A12568;
+            --gradient-end: #6F5DE0;
+            --bg-main: #13111C;
+            --text-white: #FFFFFF;
+            --text-light-gray: #E6E6FA;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: rgba(0, 0, 0, 0.37);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-main);
+            color: var(--text-light-gray);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Side Menu Styles */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, var(--gradient-start), var(--gradient-mid));
+            box-shadow: 5px 0 15px var(--glass-shadow);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+
+        .side-menu.open {
+            left: 0;
+            box-shadow: 10px 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Menu Toggle Button */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            background: linear-gradient(135deg, var(--primary), var(--gradient-end));
+            border: none;
+            color: var(--text-white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(161, 37, 104, 0.4);
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(161, 37, 104, 0.6);
+        }
+
+        .menu-toggle.open {
+            left: 240px;
+            background: linear-gradient(135deg, var(--gradient-end), var(--primary));
+        }
+
+        /* Menu Header */
+        .menu-header {
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .menu-header h3 {
+            margin: 0;
+            color: var(--text-white);
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--text-white), var(--text-light-gray));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Navigation Items */
+        .menu-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-nav li {
+            margin-bottom: 5px;
+            padding: 0 15px;
+        }
+
+        .menu-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            color: var(--text-light-gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .menu-nav a:hover,
+        .menu-nav a.active {
+            background: var(--glass-bg);
+            color: var(--text-white);
+            transform: translateX(5px);
+        }
+
+        .menu-nav a i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 0;
+            padding: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: calc(100vh - 80px);
+        }
+
+        .main-content.shifted {
+            margin-left: 280px;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px var(--glass-shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-mid));
+            color: var(--text-white);
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        /* Profile Section */
+        .profile-menu-item {
+            padding: 0 15px 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .profile-menu-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px !important;
+            background: var(--glass-bg);
+            border-radius: 8px;
+        }
+
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .side-menu {
+                left: -280px;
+            }
+            
+            .side-menu.open {
+                left: 0;
+                width: 260px;
+            }
+            
+            .menu-toggle.open {
+                left: 220px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .main-content.shifted {
+                margin-left: 0;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gradient-start);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--gradient-end));
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <h3><a href="/Home/Home.aspx">Funda Nathi</a></h3>
+        </div>
+
+        <ul class="menu-nav">
+            <li class="profile-menu-item">
+                <a href="StudentProfile.aspx">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-icon" alt="Profile" />
+                    <span>Edit Profile</span>
+                </a>
+            </li>
+            <li><a href="StudentDashboard.aspx"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="BookTutor.aspx"><i class="fas fa-chalkboard-teacher"></i> Find a Tutor</a></li>
+            <li><a href="CourseCatalog.aspx"><i class="fas fa-search"></i> Explore Catalog</a></li>
+            <li><a href="MyCourses.aspx"><i class="fas fa-book-open"></i> My Courses</a></li>
+            <li><a href="LiveSession.aspx"><i class="fas fa-video"></i> Live Sessions</a></li>
+            <li><a href="<%= ResolveUrl("~/Authentication/Auth.aspx") %>"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+        </ul>
+    </div>
+
+    <!-- Toggle Button -->
+    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="glass-card">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                <h1>Welcome to Funda Nathi</h1>
+                <p>Connecting high-achieving alumni with current students</p>
+            </asp:ContentPlaceHolder>
+        </div>
+
+    </div>
+    
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menuToggle');
+            const sideMenu = document.getElementById('sideMenu');
+            const mainContent = document.getElementById('mainContent');
+
+            // Toggle menu
+            menuToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                sideMenu.classList.toggle('open');
+                menuToggle.classList.toggle('open');
+                mainContent.classList.toggle('shifted');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (e) {
+                if (sideMenu.classList.contains('open') &&
+                    !sideMenu.contains(e.target) &&
+                    e.target !== menuToggle) {
+                    sideMenu.classList.remove('open');
+                    menuToggle.classList.remove('open');
+                    mainContent.classList.remove('shifted');
+                }
+            });
+
+            // Highlight current page in menu
+            const currentPage = window.location.pathname.split('/').pop();
+            const menuLinks = document.querySelectorAll('.menu-nav a');
+
+            menuLinks.forEach(link => {
+                const href = link.getAttribute('href').split('/').pop();
+                if (href === currentPage ||
+                    (currentPage === 'Home.aspx' && href === '/Home/Home.aspx')) {
+                    link.classList.add('active');
+                }
+
+                // Prevent default for # links
+                if (link.getAttribute('href') === '#') {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                    });
+                }
+            });
+
+            // Smooth transitions
+            const elements = [sideMenu, mainContent];
+            elements.forEach(el => {
+                el.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="EducationProject.Site1" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Limited Access Education System - Empowering education for all" />
+    <title>FundaNathi </title><asp:ContentPlaceHolder ID="head" runat="server" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="Styles/styles.css" asp-append-version="true" /> <!-- Adjusted path -->
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+</head>
+<body class="bg-gradient">
+    <form id="form1" runat="server">
+       
+        <!-- Navigation Bar -->
+      <nav class="nav-menu glass-container" role="navigation" style="z-index: 9999;">
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><asp:HyperLink ID="hlHome" runat="server" NavigateUrl="~/Home.aspx" CssClass="nav-link" aria-label="Home">Home</asp:HyperLink></li>
+                <li><asp:HyperLink ID="hlCourses" runat="server" NavigateUrl="~/Student Folder/CourseCatalog.aspx" CssClass="nav-link" aria-label="Courses">Courses</asp:HyperLink></li>
+                <li><asp:HyperLink ID="hlLogin" runat="server" CssClass="nav-link login-link" NavigateUrl="~/Authentication/Auth.aspx" aria-label="Login">Login</asp:HyperLink></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server" />
+        </main>
+
+        <!-- Scroll to Top Button -->
+        <button class="scroll-to-top glass-container" aria-label="Scroll to top">
+            <i class="fas fa-arrow-up" aria-hidden="true"></i>
+        </button>
+
+        <!-- Footer -->
+        <footer class="footer glass-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-globe"></i> Stay Connected</h3>
+                    <p>Join our community to stay updated on new courses and features.</p>
+                </div>
+                <div class="footer-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:support@laes.com">support@laes.com</a></p>
+                    <p><i class="fas fa-phone"></i> Phone: +123 456 7890</p>
+                    <p><i class="fas fa-map"></i> Address: 123 Education Lane, Learning City, 10001</p>
+                </div>
+                <div class="footer-section">
+                    <h3><i class="fas fa-link"></i> Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Limited Access Education System (LAES). All rights reserved. | 
+                   <a href="#privacy">Privacy Policy</a> | 
+                   <a href="#terms">Terms & Conditions</a></p>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="Scripts/script.js/script.js" asp-append-version="true"></script>
+    </form>
+</body>
+</html>
