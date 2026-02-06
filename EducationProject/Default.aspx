@@ -11,7 +11,7 @@
                         secondary: "#3B185F"
                     },
                     borderRadius: {
-                        button: "8px",
+                        button: "7px",
                     },
                 },
             },
