@@ -13,7 +13,7 @@
                     borderRadius: {
                         button: "7px",
                     },
-                },
+                //},
             },
         };
     </script>

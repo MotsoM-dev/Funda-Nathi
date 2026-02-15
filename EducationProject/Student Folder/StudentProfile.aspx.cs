@@ -20,84 +20,97 @@ namespace EducationProject
         }
         private void LoadProfile()
         {
-            int studentID = Convert.ToInt32(Session["StudentID"]); // Ensure TutorID is stored in session
-            int studentNo = Convert.ToInt32(Session["StudentNo"]); // Ensure TutorID is stored in session
+            if (Session["UserID"] == null)
+                return;
+
+            int userId = Convert.ToInt32(Session["UserID"]);
             string connStr = ConfigurationManager.ConnectionStrings["myDBFundaNathi"].ConnectionString;
 
-        //    using (SqlConnection conn = new SqlConnection(connStr))
-        //    {
-        //        conn.Open();
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
 
-        //        string insertQuery = @"
-        //INSERT INTO Students (FirstName, LastName, StudentNo, Degree, Institution) 
-        //VALUES (@FirstName, @LastName, @StudentNo, @Degree, @Institution)";
+                string query = "SELECT StudentNo, Degree, Institution FROM Students WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", userId);
 
-        //        SqlCommand cmd = new SqlCommand(insertQuery, conn);
-        //        cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text.Trim());
-        //        cmd.Parameters.AddWithValue("@LastName", txtLastName.Text.Trim());
-        //        cmd.Parameters.AddWithValue("@StudentNo", txtStudentNo.Text.Trim());
-        //        cmd.Parameters.AddWithValue("@Degree", txtDegree.Text.Trim());
-        //        cmd.Parameters.AddWithValue("@Institution", txtInstitution.Text.Trim());
+                SqlDataReader reader = cmd.ExecuteReader();
 
-        //        int rowsAffected = cmd.ExecuteNonQuery();
-
-        //        if (rowsAffected > 0)
-        //        {
-        //            lblMessage.Text = "Student information inserted successfully.";
-        //        }
-        //        else
-        //        {
-        //            lblMessage.Text = "Failed to insert student information.";
-        //        }
-            //}
-
+                if (reader.Read())
+                {
+                    txtStudentNo.Text = reader["StudentNo"].ToString();
+                    txtDegree.Text = reader["Degree"].ToString();
+                    txtInstitution.Text = reader["Institution"].ToString();
+                }
+            }
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (Session["UserID"] == null)
             {
-                if (string.IsNullOrWhiteSpace(txtFirstName.Text) ||
-                    string.IsNullOrWhiteSpace(txtLastName.Text) ||
-                    string.IsNullOrWhiteSpace(txtStudentNo.Text) ||
-                    string.IsNullOrWhiteSpace(txtDegree.Text) ||
-                    string.IsNullOrWhiteSpace(txtInstitution.Text))
+                Response.Redirect("~/Authentication/Auth.aspx");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtStudentNo.Text) ||
+                string.IsNullOrWhiteSpace(txtDegree.Text) ||
+                string.IsNullOrWhiteSpace(txtInstitution.Text))
+            {
+                lblMessage.Text = "Please fill in all fields.";
+                return;
+            }
+
+            int userId = Convert.ToInt32(Session["UserID"]);
+            string connStr = ConfigurationManager.ConnectionStrings["myDBFundaNathi"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+
+                // Check if profile already exists
+                string checkQuery = "SELECT COUNT(*) FROM Students WHERE UserID = @UserID";
+                SqlCommand checkCmd = new SqlCommand(checkQuery, conn);
+                checkCmd.Parameters.AddWithValue("@UserID", userId);
+
+                int count = (int)checkCmd.ExecuteScalar();
+
+                if (count == 0)
                 {
-                    lblMessage.Text = "Please fill in all fields.";
-                    return;
-                }
-
-                string connStr = ConfigurationManager.ConnectionStrings["myDBFundaNathi"].ConnectionString;
-
-                using (SqlConnection conn = new SqlConnection(connStr))
-                {
-                    conn.Open();
-
-                    string insertQuery = @"
-                    INSERT INTO Students (FirstName, LastName, StudentNo, Degree, Institution) 
-                    VALUES (@FirstName, @LastName, @StudentNo, @Degree, @Institution)";
+                    // INSERT
+                    string insertQuery = @"INSERT INTO Students (UserID, StudentNo, Degree, Institution)
+                                   VALUES (@UserID, @StudentNo, @Degree, @Institution)";
 
                     SqlCommand cmd = new SqlCommand(insertQuery, conn);
-                    cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text.Trim());
-                    cmd.Parameters.AddWithValue("@LastName", txtLastName.Text.Trim());
+                    cmd.Parameters.AddWithValue("@UserID", userId);
                     cmd.Parameters.AddWithValue("@StudentNo", txtStudentNo.Text.Trim());
                     cmd.Parameters.AddWithValue("@Degree", txtDegree.Text.Trim());
                     cmd.Parameters.AddWithValue("@Institution", txtInstitution.Text.Trim());
 
-                    int rowsAffected = cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
+                    lblMessage.Text = "Profile created successfully.";
+                }
+                else
+                {
+                    // UPDATE
+                    string updateQuery = @"UPDATE Students 
+                                   SET StudentNo = @StudentNo,
+                                       Degree = @Degree,
+                                       Institution = @Institution
+                                   WHERE UserID = @UserID";
 
-                    if (rowsAffected > 0)
-                    {
-                        lblMessage.Text = "Student information inserted successfully.";
-                    }
-                    else
-                    {
-                        lblMessage.Text = "Failed to insert student information.";
-                    }
+                    SqlCommand cmd = new SqlCommand(updateQuery, conn);
+                    cmd.Parameters.AddWithValue("@UserID", userId);
+                    cmd.Parameters.AddWithValue("@StudentNo", txtStudentNo.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Degree", txtDegree.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Institution", txtInstitution.Text.Trim());
 
-                    Response.Redirect("~/Student Folder/StudentDashBoard.aspx");
+                    cmd.ExecuteNonQuery();
+                    lblMessage.Text = "Profile updated successfully.";
                 }
             }
 
+            Response.Redirect("~/Student Folder/StudentDashBoard.aspx");
         }
     }
 }

@@ -91,96 +91,103 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
+               
 
                 <!-- Sign Up Form (Right) -->
-                <div class="auth-form signup-form" id="signup-form">
-                    <h2>Welcome to FundaNathi</h2>
-                    <asp:UpdatePanel ID="SignUpUpdatePanel" runat="server" UpdateMode="Conditional">
-                        <ContentTemplate>
-                            <asp:Panel ID="SignUpPanel" runat="server">
-                                <div class="form-content">
-                                    <div class="form-group">
-                                        <asp:Label ID="lblSignUpName" runat="server" AssociatedControlID="txtFullName" Text="Full Name" />
-                                        <asp:TextBox ID="txtFullName" runat="server" CssClass="form-input" placeholder="Enter your full name" />
-                                        <asp:RequiredFieldValidator ID="rfvFullName" runat="server" ControlToValidate="txtFullName" 
-                                            ErrorMessage="Full Name is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
-                                    </div>
-                                  
-                                    <div class="form-group">
-                                        <asp:Label ID="lblGender" runat="server" AssociatedControlID="ddlGender" Text="Gender" />
-                                        <asp:DropDownList ID="ddlGender" runat="server" CssClass="form-input">
-                                            <asp:ListItem Value="">Select Gender</asp:ListItem>
-                                            <asp:ListItem Value="Male">Male</asp:ListItem>
-                                            <asp:ListItem Value="Female">Female</asp:ListItem>
-                                            <asp:ListItem Value="Other">Other</asp:ListItem>
-                                        </asp:DropDownList>
-                                        <asp:RequiredFieldValidator ID="rfvGender" runat="server" ControlToValidate="ddlGender" 
-                                            InitialValue="" ErrorMessage="Gender is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:Label ID="lblSignUpEmail" runat="server" AssociatedControlID="txtSignUpEmail" Text="Email" />
-                                        <asp:TextBox ID="txtSignUpEmail" runat="server" CssClass="form-input" placeholder="Enter your email" TextMode="Email" />
-                                        <asp:RequiredFieldValidator ID="rfvSignUpEmail" runat="server" ControlToValidate="txtSignUpEmail" 
-                                            ErrorMessage="Email is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
-                                        <asp:RegularExpressionValidator ID="revSignUpEmail" runat="server" ControlToValidate="txtSignUpEmail" 
-                                            ErrorMessage="Invalid email format" CssClass="error-message" Display="Dynamic" 
-                                            ValidationExpression="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" ValidationGroup="SignUp" />
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:Label ID="lblSignUpPassword" runat="server" AssociatedControlID="txtPasswordSignUp" Text="Password" />
-                                        <asp:TextBox ID="txtPasswordSignUp" runat="server" TextMode="Password" CssClass="form-input" placeholder="Enter your password" />
-                                        <asp:RequiredFieldValidator ID="rfvSignUpPassword" runat="server" ControlToValidate="txtPasswordSignUp" 
-                                            ErrorMessage="Password is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:Label ID="lblConfirmPassword" runat="server" AssociatedControlID="txtConfirmPassword" Text="Confirm Password" />
-                                        <asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password" CssClass="form-input" placeholder="Confirm your password" />
-                                        <asp:RequiredFieldValidator ID="rfvConfirmPassword" runat="server" ControlToValidate="txtConfirmPassword" 
-                                            ErrorMessage="Confirm Password is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
-                               
 
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:Label ID="lblRole" runat="server" AssociatedControlID="ddlRole" Text="Role" />
-                                        <asp:DropDownList ID="ddlRole" runat="server" CssClass="form-input">
-                                            <asp:ListItem Value="">Select Role</asp:ListItem>
-                                            <asp:ListItem Value="Student">Student</asp:ListItem>
-                                            <asp:ListItem Value="Tutor">Tutor</asp:ListItem>
-                                        </asp:DropDownList>
-                                        <asp:RequiredFieldValidator ID="rfvRole" runat="server" ControlToValidate="ddlRole" 
-                                            InitialValue="" ErrorMessage="Role is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
-                                    </div>
-                                    <asp:Button ID="btnSignUp" runat="server" 
-                                       Text="Sign Up" 
-                                       CssClass="btn btn-primary" 
-                                       ValidationGroup="SignUp" 
-                                       OnClick="btnSignUp_Click" />
-                                </div>
-                             
-
-
-<!-- Make sure the label is properly configured -->
-<asp:Label ID="lblSignUpMessage" runat="server" 
-          CssClass="error-message" 
-          Visible="False" />
-                            </asp:Panel>
-                        </ContentTemplate>
-                        <Triggers>
-        <asp:AsyncPostBackTrigger ControlID="btnSignUp" EventName="Click" />
-    </Triggers>
-                    </asp:UpdatePanel>
-                    <div class="auth-links">
-                        <a href="#" class="auth-switch" data-target="login-form" aria-label="Switch to Login">Already have an account?</a>
+<div class="auth-form signup-form" id="signup-form">
+    <h2>Welcome to FundaNathi</h2>
+    <asp:UpdatePanel ID="SignUpUpdatePanel" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
+            <asp:Panel ID="SignUpPanel" runat="server">
+                <div class="form-content">
+                    <div class="form-group">
+                        <asp:Label ID="lblSignUpName" runat="server" AssociatedControlID="txtFullName" Text="Full Name" />
+                        <asp:TextBox ID="txtFullName" runat="server" CssClass="form-input" placeholder="Enter your full name" />
+                        <asp:RequiredFieldValidator ID="rfvFullName" runat="server" ControlToValidate="txtFullName" 
+                            ErrorMessage="Full Name is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
                     </div>
+                  
+                    <div class="form-group">
+                        <asp:Label ID="lblGender" runat="server" AssociatedControlID="ddlGender" Text="Gender" />
+                        <asp:DropDownList ID="ddlGender" runat="server" CssClass="form-input">
+                            <asp:ListItem Value="">Select Gender</asp:ListItem>
+                            <asp:ListItem Value="Male">Male</asp:ListItem>
+                            <asp:ListItem Value="Female">Female</asp:ListItem>
+                            <asp:ListItem Value="Other">Other</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="rfvGender" runat="server" ControlToValidate="ddlGender" 
+                            InitialValue="" ErrorMessage="Gender is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
+                    </div>
+
+                    <div class="form-group">
+                        <asp:Label ID="lblSignUpEmail" runat="server" AssociatedControlID="txtSignUpEmail" Text="Email" />
+                        <asp:TextBox ID="txtSignUpEmail" runat="server" CssClass="form-input" placeholder="Enter your email" TextMode="Email" />
+                        <asp:RequiredFieldValidator ID="rfvSignUpEmail" runat="server" ControlToValidate="txtSignUpEmail" 
+                            ErrorMessage="Email is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
+                        <asp:RegularExpressionValidator ID="revSignUpEmail" runat="server" ControlToValidate="txtSignUpEmail" 
+                            ErrorMessage="Invalid email format" CssClass="error-message" Display="Dynamic" 
+                            ValidationExpression="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" ValidationGroup="SignUp" />
+                    </div>
+
+                    <div class="form-group">
+                        <asp:Label ID="lblSignUpPassword" runat="server" AssociatedControlID="txtPasswordSignUp" Text="Password" />
+                        <asp:TextBox ID="txtPasswordSignUp" runat="server" TextMode="Password" CssClass="form-input" placeholder="Enter your password" />
+                        <asp:RequiredFieldValidator ID="rfvSignUpPassword" runat="server" ControlToValidate="txtPasswordSignUp" 
+                            ErrorMessage="Password is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
+                    </div>
+
+                    <div class="form-group">
+                        <asp:Label ID="lblConfirmPassword" runat="server" AssociatedControlID="txtConfirmPassword" Text="Confirm Password" />
+                        <asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password" CssClass="form-input" placeholder="Confirm your password" />
+                        <asp:RequiredFieldValidator ID="rfvConfirmPassword" runat="server" ControlToValidate="txtConfirmPassword" 
+                            ErrorMessage="Confirm Password is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
+                    </div>
+
+                    <div class="form-group">
+                        <asp:Label ID="lblRole" runat="server" AssociatedControlID="ddlRole" Text="Role" />
+                        <asp:DropDownList ID="ddlRole" runat="server" CssClass="form-input">
+                            <asp:ListItem Value="">Select Role</asp:ListItem>
+                            <asp:ListItem Value="Student">Student</asp:ListItem>
+                            <asp:ListItem Value="Tutor">Tutor</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="rfvRole" runat="server" ControlToValidate="ddlRole" 
+                            InitialValue="" ErrorMessage="Role is required" CssClass="error-message" Display="Dynamic" ValidationGroup="SignUp" />
+                    </div>
+
+                    <asp:Button ID="btnSignUp" runat="server" 
+                       Text="Sign Up" 
+                       CssClass="btn btn-primary" 
+                       ValidationGroup="SignUp" 
+                       OnClick="btnSignUp_Click" />
+
+                    <!-- Move the label inside the form-content div -->
+                    <asp:Label ID="lblSignUpMessage" runat="server" 
+                              CssClass="error-message" 
+                              Visible="False" />
+
+                    <!-- Optional: Validation summary to collect all messages -->
+                    <asp:ValidationSummary ID="vsSignUp" runat="server" CssClass="error-message" DisplayMode="BulletList" ValidationGroup="SignUp" />
                 </div>
-            </div>
+            </asp:Panel>
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnSignUp" EventName="Click" />
+        </Triggers>
+    </asp:UpdatePanel>
+
+    <div class="auth-links">
+        <a href="#" class="auth-switch" data-target="login-form" aria-label="Switch to Login">Already have an account?</a>
+    </div>
+</div>
+                </div>
         </form>
     </section>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="../Scripts/script.js/auth.js" asp-append-version="true"></script>
 
-    <script>
+    <%--<script>
         function validateNoSpaces(input) {
             if (input.value.trim() === "") {
                 input.setCustomValidity("Field cannot be empty or just spaces");
@@ -188,6 +195,6 @@
                 input.setCustomValidity("");
             }
         }
-    </script>
+    </script>--%>
 </body>
 </html>
